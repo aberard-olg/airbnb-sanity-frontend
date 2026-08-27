@@ -1,40 +1,52 @@
 import React from "react"
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api"
 
+const containerStyle = {
+  width: "100%",
+  height: "100vh",
+}
+
+const markerIcon =
+  "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+
 const DashboardMap = ({ properties }) => {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: process.env.googlePlacesAPI,
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   })
 
-  console.log(properties[0].location?.lat)
-  console.log(properties[0].location?.lat)
-  const containerStyle = {
-    width: "100%",
-    height: "100vh",
-  }
-
   const center = {
-    lat: properties[0].location?.lat,
-    lng: properties[0].location?.lng,
+    lat: properties[0]?.location?.lat ?? 0,
+    lng: properties[0]?.location?.lng ?? 0,
   }
 
   const [map, setMap] = React.useState(null)
 
   const onLoad = React.useCallback(function callback(map) {
-    const bounds = new window.google.maps.LatLngBounds()
-    map.fitBounds(bounds)
+    if (properties.length > 0) {
+      const bounds = new window.google.maps.LatLngBounds()
+      properties.forEach((property) => {
+        if (property?.location?.lat && property?.location?.lng) {
+          bounds.extend({
+            lat: property.location.lat,
+            lng: property.location.lng,
+          })
+        }
+      })
+      map.fitBounds(bounds)
+    }
     setMap(map)
-  }, [])
+  }, [properties])
 
-  const onUnmount = React.useCallback(function callback(map) {
+  const onUnmount = React.useCallback(function callback() {
     setMap(null)
   }, [])
 
-  const image =
-    "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+  if (!isLoaded) {
+    return <div>Loading map...</div>
+  }
 
-  return isLoaded ? (
+  return (
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center}
@@ -42,22 +54,20 @@ const DashboardMap = ({ properties }) => {
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
-      {properties.map((property, index) => (
+      {properties.map((property) => (
         <Marker
+          key={property._id}
           position={{
             lat: property?.location?.lat,
             lng: property?.location?.lng,
           }}
           icon={{
-            url: image,
+            url: markerIcon,
             anchor: new google.maps.Point(5, 58),
           }}
         />
       ))}
-      <></>
     </GoogleMap>
-  ) : (
-    <></>
   )
 }
 

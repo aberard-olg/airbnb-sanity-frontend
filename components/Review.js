@@ -1,7 +1,6 @@
 import { urlFor } from "../sanity"
 
 const Review = ({ review }) => {
-
   return (
     <div className="review-box">
       <h1>{review.rating}</h1>
@@ -12,6 +11,7 @@ const Review = ({ review }) => {
           .height(50)
           .crop("focalpoint")
           .auto("format")}
+        alt={`${review.traveller.name}'s profile`}
       />
     </div>
   )

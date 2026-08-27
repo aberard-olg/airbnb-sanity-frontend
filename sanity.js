@@ -1,5 +1,13 @@
 import { createClient, createImageUrlBuilder } from "next-sanity"
 
+// Validate required environment variables
+if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
+  throw new Error(
+    "Missing NEXT_PUBLIC_SANITY_PROJECT_ID environment variable. " +
+    "Please add it to your .env.local file."
+  )
+}
+
 const config = {
   /**
    * Find your project ID and dataset in `sanity.json` in your studio project.
