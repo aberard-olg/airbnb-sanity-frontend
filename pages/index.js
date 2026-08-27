@@ -42,18 +42,20 @@ const Home = ({ properties }) => {
 
 export const getServerSideProps = async () => {
   const query = '*[ _type == "property"]'
-  const properties = await sanityClient.fetch(query)
 
-  if (!properties.length) {
+  try {
+    const properties = await sanityClient.fetch(query)
+
+    return {
+      props: {
+        properties: properties || [],
+      },
+    }
+  } catch (error) {
+    console.error("Error fetching properties:", error)
     return {
       props: {
         properties: [],
-      },
-    }
-  } else {
-    return {
-      props: {
-        properties,
       },
     }
   }

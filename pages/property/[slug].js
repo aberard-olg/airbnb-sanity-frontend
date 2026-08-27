@@ -131,28 +131,34 @@ export const getServerSideProps = async (pageContext) => {
     }
   }`
 
-  const property = await sanityClient.fetch(query, { pageSlug })
+  try {
+    const property = await sanityClient.fetch(query, { pageSlug })
 
-  if (!property) {
-    return {
-      props: null,
-      notFound: true,
+    if (!property) {
+      return {
+        notFound: true,
+      }
     }
-  } else {
+
     return {
       props: {
         title: property.title,
         location: property.location,
         propertyType: property.propertyType,
         mainImage: property.mainImage,
-        images: property.images,
+        images: property.images || [],
         pricePerNight: property.pricePerNight,
         beds: property.beds,
         bedrooms: property.bedrooms,
         description: property.description,
         host: property.host,
-        reviews: property.reviews,
+        reviews: property.reviews || [],
       },
+    }
+  } catch (error) {
+    console.error("Error fetching property:", error)
+    return {
+      notFound: true,
     }
   }
 }
