@@ -65,6 +65,25 @@ Instagram: https://www.instagram.com/aniakubow
 
 ## Getting Started
 
+### Prerequisites
+
+- Node.js 14.x or higher
+- A Sanity.io account and project
+- A Google Maps API key
+
+### Environment Setup
+
+1. Copy the example environment file:
+```bash
+cp .env.example .env.local
+```
+
+2. Fill in your environment variables in `.env.local`:
+   - `NEXT_PUBLIC_SANITY_PROJECT_ID`: Your Sanity project ID (from [sanity.io/manage](https://www.sanity.io/manage))
+   - `NEXT_PUBLIC_SANITY_DATASET`: Your dataset name (usually "production")
+   - `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`: Your Google Maps API key (from [Google Cloud Console](https://console.cloud.google.com/apis/credentials))
+
+### Installation
 
 First, install the packages:
 ```bash
