@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import { urlFor } from "../sanity"
 
 const Review = ({ review }) => {
@@ -15,6 +16,16 @@ const Review = ({ review }) => {
       />
     </div>
   )
+}
+
+Review.propTypes = {
+  review: PropTypes.shape({
+    rating: PropTypes.number.isRequired,
+    traveller: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      image: PropTypes.object.isRequired,
+    }).isRequired,
+  }).isRequired,
 }
 
 export default Review

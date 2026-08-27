@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api"
 
 const containerStyle = {
@@ -69,6 +70,18 @@ const DashboardMap = ({ properties }) => {
       ))}
     </GoogleMap>
   )
+}
+
+DashboardMap.propTypes = {
+  properties: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      location: PropTypes.shape({
+        lat: PropTypes.number,
+        lng: PropTypes.number,
+      }),
+    })
+  ).isRequired,
 }
 
 export default React.memo(DashboardMap)
