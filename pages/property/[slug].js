@@ -20,7 +20,6 @@ const Property = ({
 }) => {
   const reviewAmount = reviews.length
 
-  console.log(images)
   return (
     <div className="container">
       <h1>
@@ -30,10 +29,10 @@ const Property = ({
         {reviewAmount} review{isMultiple(reviewAmount)}
       </p>
       <div className="images-section">
-        <Image identifier="main-image" image={mainImage} />
+        <Image identifier="main-image" image={mainImage} alt={title} />
         <div className="sub-images-section">
-          {images.map(({ _key, asset }, image) => (
-            <Image key={_key} identifier="image" image={asset} />
+          {images.map(({ _key, asset }, index) => (
+            <Image key={_key} identifier="image" image={asset} alt={`${title} - image ${index + 1}`} />
           ))}
         </div>
       </div>
@@ -54,7 +53,7 @@ const Property = ({
             <b>Enhanced Clean</b>
           </h4>
           <p>
-            This host is committed to Airbnb's 5-step enhanced cleaning process.
+            This host is committed to Airbnb&apos;s 5-step enhanced cleaning process.
           </p>
           <h4>
             <b>Amenities for everyday living</b>
@@ -67,7 +66,7 @@ const Property = ({
             <b>House rules</b>
           </h4>
           <p>
-            This place isn't suitable for pets andthe host does not allow
+            This place isn&apos;t suitable for pets and the host does not allow
             parties or smoking.
           </p>
         </div>
@@ -77,7 +76,7 @@ const Property = ({
             {reviewAmount} review{isMultiple(reviewAmount)}
           </h4>
           <Link href="/">
-            <div className="button">Change Dates</div>
+            <button type="button" className="button">Change Dates</button>
           </Link>
         </div>
       </div>
@@ -97,7 +96,7 @@ const Property = ({
       <hr />
 
       <h2>Location</h2>
-      <Map location={location}></Map>
+      <Map location={location} />
     </div>
   )
 }

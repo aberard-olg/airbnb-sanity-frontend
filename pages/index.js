@@ -4,7 +4,6 @@ import { isMultiple } from "../utils"
 import DashboardMap from "../components/DashboardMap"
 
 const Home = ({ properties }) => {
-  console.log(properties)
   return (
     <>
       {properties && (
@@ -13,9 +12,12 @@ const Home = ({ properties }) => {
             <h1>Places to stay near you</h1>
             <div className="feed">
               {properties.map((property) => (
-                <Link href={`property/${property.slug.current}`}>
-                  <div key={property._id} className="card">
-                    <img src={urlFor(property.mainImage)} />
+                <Link key={property._id} href={`property/${property.slug.current}`}>
+                  <div className="card">
+                    <img
+                      src={urlFor(property.mainImage)}
+                      alt={property.title}
+                    />
                     <p>
                       {property.reviews.length} review
                       {isMultiple(property.reviews.length)}

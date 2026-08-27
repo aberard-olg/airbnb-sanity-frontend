@@ -1,41 +1,45 @@
 import React from "react"
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api"
 
+const containerStyle = {
+  width: "100%",
+  height: "400px",
+}
+
+const markerIcon =
+  "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+
 const Map = ({ location }) => {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: process.env.googlePlacesAPI,
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   })
 
-  console.log("location.lat", location.lat)
-  console.log("location.lat", location.lat)
-  const containerStyle = {
-    width: "100%",
-    height: "400px",
-  }
-
-  console.log(location.lat)
   const center = {
-    lat: location.lat,
-    lng: location.lng,
+    lat: location?.lat ?? 0,
+    lng: location?.lng ?? 0,
   }
 
   const [map, setMap] = React.useState(null)
 
   const onLoad = React.useCallback(function callback(map) {
-    const bounds = new window.google.maps.LatLngBounds()
-    map.fitBounds(bounds)
+    if (location?.lat && location?.lng) {
+      const bounds = new window.google.maps.LatLngBounds()
+      bounds.extend({ lat: location.lat, lng: location.lng })
+      map.fitBounds(bounds)
+    }
     setMap(map)
-  }, [])
+  }, [location])
 
-  const onUnmount = React.useCallback(function callback(map) {
+  const onUnmount = React.useCallback(function callback() {
     setMap(null)
   }, [])
 
-  const image =
-    "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+  if (!isLoaded) {
+    return <div>Loading map...</div>
+  }
 
-  return isLoaded ? (
+  return (
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center}
@@ -44,16 +48,13 @@ const Map = ({ location }) => {
       onUnmount={onUnmount}
     >
       <Marker
-        position={{ lat: location.lat, lng: location.lng }}
+        position={{ lat: location?.lat, lng: location?.lng }}
         icon={{
-          url: image,
+          url: markerIcon,
           anchor: new google.maps.Point(5, 58),
         }}
       />
-      <></>
     </GoogleMap>
-  ) : (
-    <></>
   )
 }
 
