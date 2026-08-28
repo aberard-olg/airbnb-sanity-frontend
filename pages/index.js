@@ -13,7 +13,7 @@ const Home = ({ properties }) => {
             <div className="feed">
               {properties.map((property) => (
                 <Link key={property._id} href={`property/${property.slug.current}`}>
-                  <div className="card">
+                  <a className="card">
                     <img
                       src={urlFor(property.mainImage)}
                       alt={property.title}
@@ -26,7 +26,7 @@ const Home = ({ properties }) => {
                     <h3>
                       <b>£{property.pricePerNight}/per Night</b>
                     </h3>
-                  </div>
+                  </a>
                 </Link>
               ))}
             </div>
@@ -52,7 +52,7 @@ export const getServerSideProps = async () => {
       },
     }
   } catch (error) {
-    console.error("Error fetching properties:", error)
+    // Error fetching properties - return empty list
     return {
       props: {
         properties: [],

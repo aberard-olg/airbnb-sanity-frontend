@@ -76,7 +76,7 @@ const Property = ({
             {reviewAmount} review{isMultiple(reviewAmount)}
           </h4>
           <Link href="/">
-            <button type="button" className="button">Change Dates</button>
+            <a className="button">Change Dates</a>
           </Link>
         </div>
       </div>
@@ -156,7 +156,7 @@ export const getServerSideProps = async (pageContext) => {
       },
     }
   } catch (error) {
-    console.error("Error fetching property:", error)
+    // Error fetching property - return not found
     return {
       notFound: true,
     }
